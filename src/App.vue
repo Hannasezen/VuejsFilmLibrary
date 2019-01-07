@@ -39,6 +39,10 @@ export default {
           url: '/'
         },
         {
+          title: 'Tasks',
+          url: '/task'
+        },
+        {
           title: 'Login',
           url: '/login'
         },

@@ -37,41 +37,42 @@
           .total-time__film(
             v-if="whatWatch === 'Film'"
           )
-            span Total Film Time
+            span.time-title Hours
+            input.time-input(
+              type="number"
+              v-model="filmHours"
+            )
+            span.time-title Minutes
+            input.time-input(
+              type="number"
+              v-model="filmMinutes"
+            )
+            p {{ filmTime }}
           .total-time
           .total-time__show(
             v-if="whatWatch === 'Show'"
           )
-            span Total Show Time
+            span.time-title How many season?
+            input.time-input(
+              type="number"
+              v-model="showSeason"
+            )
+            span.time-title How many series?
+            input.time-input(
+              type="number"
+              v-model="showSeries"
+            )
+            span.time-title How long is one series? (minutes)
+            input.time-input(
+              type="number"
+              v-model="showSeriesMinutes"
+            )
+            p {{ showTime }}
         .tag-list
           .ui-tag__wrapper
             .ui-tag
               span.tag-title
               span.button-close
-    section
-      .container
-        .task-list
-          .task-item(
-            v-for="task in tasks"
-            :key="task.id"
-            :class="{ completed: task.completed }"
-          )
-            .ui-card.ui-card-shadow
-              .task-item__info
-                .task-item__main-info
-                  span.ui-label.ui-label--light {{ task.whatWatch }}
-                  span Total Time
-                span.button-close
-              .task-item__content
-                .task-item__header
-                  .ui-checkbox-wrapper
-                    input.ui-checkbox(
-                      type="checkbox"
-                      v-model="task.completed"
-                      )
-                  span.ui-title-3 {{ task.title }}
-                .task-item__body
-                  p.ui-text-regular {{ task.description }}
 </template>
 
 <script>
@@ -82,32 +83,11 @@ export default {
       taskId: 4,
       taskDescription: '',
       whatWatch: 'film',
-      tasks: [
-        {
-          'id': 1,
-          'title': 'title1',
-          'description': 'description1',
-          'whatWatch': 'Film',
-          'completed': false,
-          'editing': false
-        },
-        {
-          'id': 2,
-          'title': 'title2',
-          'description': 'description2',
-          'whatWatch': 'Show',
-          'completed': false,
-          'editing': false
-        },
-        {
-          'id': 3,
-          'title': 'title3',
-          'description': 'description3',
-          'whatWatch': 'Film',
-          'completed': false,
-          'editing': false
-        }
-      ]
+      filmHours: 1,
+      filmMinutes: 30,
+      showSeason: 1,
+      showSeries: 11,
+      showSeriesMinutes: 40
     }
   },
   methods: {
@@ -115,17 +95,40 @@ export default {
       if (this.taskTitle === '') {
         return
       }
-      this.tasks.push({
+      let time
+      if (this.whatWatch === 'Film') {
+        time = this.filmTime
+      } else {
+        time = this.showTime
+      }
+      const task = {
         id: this.taskId,
         title: this.taskTitle,
         description: this.taskDescription,
         whatWatch: this.whatWatch,
+        time,
         completed: false,
         editing: false
-      })
+      }
+      console.log(task)
       this.taskTitle = ''
       this.taskDescription = ''
       this.taskId++
+    },
+    getHoursAndMinutes (minutes) {
+      let hours = Math.trunc(minutes / 60)
+      let min = minutes % 60
+      return hours + ' hours ' + min + ' minutes'
+    }
+  },
+  computed: {
+    filmTime () {
+      let min = (this.filmHours * 60) + (this.filmMinutes * 1)
+      return this.getHoursAndMinutes(min)
+    },
+    showTime () {
+      let min = this.showSeason * this.showSeries * this.showSeriesMinutes
+      return this.getHoursAndMinutes(min)
     }
   }
 }
@@ -136,35 +139,19 @@ export default {
     display flex
     .what-watch--radio
       margin-right 12px
+    input
+      margin-bottom 0
     label
       margin-right 20px
+      margin-bottom 0
       &:last-child
         margin-right 0
-
-  .task-item
+  .total-time
     margin-bottom 20px
-    &:last-child
-      margin-bottom 0
-
-  .ui-label
-    margin-right 8px
-
-  .task-item__info
-    display flex
-    align-items center
-    justify-content space-between
-    margin-bottom 20px
-
-  .button-close
-    width 20px
-    height @width
-
-  .task-item__header
-    display flex
-    align-items center
-    margin-bottom 18px
-    .ui-checkbox-wrapper
-      margin-right 8px
-      .ui-title-3
-        margin-bottom 0
+  .time-title
+    display block
+    margin-bottom 6px
+  .time-input
+    max-width 80px
+    margin-right 10px
 </style>
