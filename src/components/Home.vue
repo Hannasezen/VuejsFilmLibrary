@@ -112,7 +112,7 @@ export default {
   },
   methods: {
     newTask: function () {
-      if(this.taskTitle === '') {
+      if (this.taskTitle === '') {
         return
       }
       this.tasks.push({
@@ -167,5 +167,4 @@ export default {
       margin-right 8px
       .ui-title-3
         margin-bottom 0
-  
 </style>
