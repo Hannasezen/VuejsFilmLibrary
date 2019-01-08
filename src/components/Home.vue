@@ -110,7 +110,6 @@ export default {
   data () {
     return {
       taskTitle: '',
-      taskId: 4,
       taskDescription: '',
       whatWatch: 'film',
       filmHours: 1,
@@ -149,7 +148,6 @@ export default {
         time = this.showTime
       }
       const task = {
-        id: this.taskId,
         title: this.taskTitle,
         description: this.taskDescription,
         whatWatch: this.whatWatch,
@@ -160,7 +158,6 @@ export default {
       }
       this.$store.dispatch('newTask', task)
       console.log(task)
-      this.taskId++
       this.taskTitle = ''
       this.taskDescription = ''
       this.tagsUsed = []

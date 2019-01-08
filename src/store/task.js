@@ -34,6 +34,7 @@ export default {
   },
   actions: {
     newTask ({commit}, payload) {
+      payload.id = Math.random()
       commit('newTask', payload)
     }
   },

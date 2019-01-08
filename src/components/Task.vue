@@ -13,7 +13,7 @@
               .task-item__info
                 .task-item__main-info
                   span.ui-label.ui-label--light {{ task.whatWatch }}
-                  span Total Time
+                  span Total Time: {{ task.time }}
                 span.button-close
               .task-item__content
                 .task-item__header
