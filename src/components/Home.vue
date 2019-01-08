@@ -152,7 +152,7 @@ export default {
         description: this.taskDescription,
         whatWatch: this.whatWatch,
         time,
-        tagsUsed: this.tagsUsed,
+        tags: this.tagsUsed,
         completed: false,
         editing: false
       }
@@ -165,7 +165,9 @@ export default {
     addTagUsed (tag) {
       tag.use = !tag.use
       if (tag.use) {
-        this.tagsUsed.push(tag.title)
+        this.tagsUsed.push({
+          title: tag.title
+        })
       } else {
         this.tagsUsed.splice(tag.title, 1)
       }
