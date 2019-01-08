@@ -2,10 +2,22 @@
   .content-wrapper
     section
       .container
-        h1.ui-title-1  Tasks
+        .task-list__header
+          h1.ui-title-1  Tasks
+          .buttons-list
+            p {{ filter }}
+            .button.button--round.button-default(
+              @click="filter = 'active'"
+            ) Active
+            .button.button--round.button-default(
+              @click="filter = 'completed'"
+            ) Completed
+            .button.button--round.button-default(
+              @click="filter = 'all'"
+            ) All
         .task-list
           .task-item(
-            v-for="task in tasks"
+            v-for="task in tasksFilter"
             :key="task.id"
             :class="{ completed: task.completed }"
           )
@@ -37,19 +49,46 @@
 
 <script>
 export default {
+  data () {
+    return {
+      filter: 'active'
+    }
+  },
   computed: {
-    tasks () {
-      return this.$store.getters.tasks
+    tasksFilter () {
+      if (this.filter === 'active') {
+        return this.$store.getters.taskNotCompleted
+      } else if (this.filter === 'completed') {
+        return this.$store.getters.taskCompleted
+      } else if (this.filter === 'all') {
+        return this.$store.getters.tasks
+      }
+      return this.filter === 'active'
     }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
+  .task-list__header
+    display flex
+    justify-content space-between
+    align-items center
+    margin-bottom 30px
+    .button
+      margin-right 8px
+    .ui-title-1
+      margin-bottom 0
   .task-item
     margin-bottom 20px
     &:last-child
       margin-bottom 0
+    &.completed
+      .ui-title-3,
+      .ui-text-regular,
+      .ui-tag
+        text-decoration line-through
+        color #909399
 
   .ui-label
     margin-right 8px
